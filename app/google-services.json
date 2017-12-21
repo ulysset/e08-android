@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "122373452284",
+    "firebase_url": "https://hetic-8.firebaseio.com",
+    "project_id": "hetic-8",
+    "storage_bucket": "hetic-8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122373452284:android:2966de03a4b87951",
+        "android_client_info": {
+          "package_name": "com.example.ul.libike"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122373452284-c3frbvrbp6hutap243k3pl02j7tekbfn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAls6p42ze0zMvsINVDamyjWIC9GCa98hQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
