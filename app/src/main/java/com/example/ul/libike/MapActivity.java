@@ -13,74 +13,84 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An activity that displays a Google map with a marker (pin) to indicate a particular location.
  */
+
+
+
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
+    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference myRef = database.child("bikes");
+    List<Bike> bikes;
+
     private static final String TAG = LoginActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        bikes = new ArrayList<>();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
-        Toast.makeText(this, "Choose a language.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Choisir un vélo", Toast.LENGTH_LONG).show();
     }
 
-    /**
-     * Manipulates the map when it's available.
-     * The API invokes this callback when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user receives a prompt to install
-     * Play services inside the SupportMapFragment. The API invokes this method after the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                bikes.clear();
+                // This method) is called once with the initial value and again
+                // whenever data at this location is updated.
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Bike bike = postSnapshot.getValue(Bike.class);
+                    bikes.add(bike);
+                }
+                Log.d(TAG, "FeuBaise Value is: " + bikes);
+                for (Bike bike : bikes) {
+                    // fruit is an element of the `fruits` array.
+                    Log.d(TAG, "FeuBaise Value is: " + bike.name);
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(bike.latitude, bike.longitude))
+                            .title(bike.name)
+                            .snippet("Plus d'informations"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(bike.latitude, bike.longitude)));
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
         mMap = googleMap;
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
         {
             @Override
             public void onInfoWindowClick(Marker arg0) {
-                if(arg0 != null && arg0.getTitle().equals("English")){
+                if(arg0 != null){
                     Log.d(TAG, "marker Click");
-                    // Initialyze new activity with params
                     Intent intent = new Intent(getApplicationContext(), BikeActivity.class);
                     // intent.putParcelableArrayListExtra(this.BIKE, tickets);
                     startActivity(intent);
                 }
             }
         });
-        LatLng greatBritain = new LatLng(51.30, -0.07);
-        LatLng germany = new LatLng(52.3107, 13.2430);
-        LatLng italy = new LatLng(41.53, 12.29);
-        LatLng spain = new LatLng(40.25, -3.41);
-        mMap.addMarker(new MarkerOptions()
-                .position(greatBritain)
-                .title("English")
-                .snippet("Click on me:)"));
-        mMap.addMarker(new MarkerOptions()
-                .position(germany)
-                .title("German")
-                .snippet("Click on me:)"));
-        mMap.addMarker(new MarkerOptions()
-                .position(italy)
-                .title("Italian")
-                .snippet("Click on me:)"));
-        mMap.addMarker(new MarkerOptions()
-                .position(spain)
-                .title("Spanish")
-                .snippet("Click on me:)"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(greatBritain));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(germany));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(italy));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(spain));
     }
 
 }

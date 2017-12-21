@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "122373452284-9m23jubbdlgm4jem0hskt1d2bbk59f51.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ul.libike",
+            "certificate_hash": "927428fea056ce75a25d7cad3157c03da36e5eda"
+          }
+        },
+        {
           "client_id": "122373452284-c3frbvrbp6hutap243k3pl02j7tekbfn.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,20 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122373452284-fej42o04rtbisla3afbghk9hdoqnpcud.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.clementvion.Libike"
+              }
+            },
+            {
+              "client_id": "122373452284-c3frbvrbp6hutap243k3pl02j7tekbfn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
